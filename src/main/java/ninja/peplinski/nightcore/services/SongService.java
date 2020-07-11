@@ -30,7 +30,7 @@ public class SongService extends Listable<Song> {
         });
     }
 
-    public void saveSong(String title, Integer artistId, String genre, String ytId)
+    public void saveSong(String title, Integer artistId, String genre, String ytId, Integer clicks)
             throws AlreadyExistsException, NoSuchArtistException, NoSuchGenreException {
 
         Song song = new Song();
@@ -47,10 +47,17 @@ public class SongService extends Listable<Song> {
             throw new NoSuchGenreException("");
         }
 
+        song.setClicks(clicks);
         song.setTitle(title);
         song.setYtId(ytId);
 
         repository.save(song);
+    }
+
+    public void saveSong(String title, Integer artistId, String genre, String ytId)
+            throws AlreadyExistsException, NoSuchArtistException, NoSuchGenreException {
+
+        this.saveSong(title, artistId, genre, ytId, 0);
     }
 
 }

@@ -67,9 +67,10 @@ public class SongViewController {
     private String addNewArtist(@RequestParam String title,
                                 @RequestParam Integer artistId,
                                 @RequestParam String genre,
-                                @RequestParam String ytId) {
+                                @RequestParam String ytId,
+                                @RequestParam(defaultValue = "") String clicks) {
 
-        return "redirect:/songs?" + saveSong(title, artistId, genre, ytId).toString();
+        return "redirect:/songs?" + saveSong(title, artistId, genre, ytId, clicks).toString();
     }
 
     @PostMapping(path = "/songs/add/request/{requestId}")
@@ -77,21 +78,26 @@ public class SongViewController {
                                            @RequestParam String title,
                                            @RequestParam Integer artistId,
                                            @RequestParam String genre,
-                                           @RequestParam String ytId) {
+                                           @RequestParam String ytId,
+                                           @RequestParam(defaultValue = "") String clicks) {
 
         Optional<Request> optionalRequest = requestService.getById(requestId);
         if (!optionalRequest.isPresent() || !optionalRequest.get().getOpen()) return "redirect:/songs?error";
 
-        CreationStatus creationStatus = saveSong(title, artistId, genre, ytId);
+        CreationStatus creationStatus = saveSong(title, artistId, genre, ytId, clicks);
         if (!creationStatus.equals(CreationStatus.SUCCESS)) return "redirect:/songs?" + creationStatus.toString();
         requestService.closeRequest(optionalRequest.get());
 
         return "redirect:/songs?success";
     }
 
-    private CreationStatus saveSong(String title, Integer artistId, String genre, String ytId) {
+    private CreationStatus saveSong(String title, Integer artistId, String genre, String ytId, String clicks) {
         try {
-            songService.saveSong(title, artistId, genre, ytId);
+            if (clicks.matches("-?(0|[1-9]\\d*)")) {
+                songService.saveSong(title, artistId, genre, ytId, Integer.parseInt(clicks));
+            } else {
+                return CreationStatus.NOTANNUMBER;
+            }
         } catch (AlreadyExistsException e) {
             return CreationStatus.ALREADYESXIST;
         } catch (NoSuchArtistException e) {
@@ -106,6 +112,7 @@ public class SongViewController {
         ALREADYESXIST("alreadyExists"),
         NOSUCHARTIST("noSuchArtist"),
         NOSUCHGENRE("noSuchGenre"),
+        NOTANNUMBER("notAnNumber"),
         SUCCESS("success");
 
         private final String value;

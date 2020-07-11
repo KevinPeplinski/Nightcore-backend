@@ -107,6 +107,32 @@
         </div>
     </div>
 
+    <!-- Song Creation Form Fields -->
+    <div th:fragment="songForm" class="modal-body">
+        <h1 class="h3 mb-3 font-weight-normal">Title</h1>
+        <label for="title" class="sr-only">Title</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="Title" required autofocus/>
+
+        <h1 class="h3 mb-3 mt-3 font-weight-normal">Youtube ID</h1>
+        <label for="ytId" class="sr-only">Youtube ID</label>
+        <input type="text" id="ytId" name="ytId" class="form-control" placeholder="Youtube Id" required/>
+
+        <h1 class="h3 mb-3 mt-3 font-weight-normal">Artist Id</h1>
+        <label for="artistId" class="sr-only">Artist Id</label>
+        <input type="text" id="artistId" name="artistId" class="form-control" placeholder="Artist Id" required/>
+
+        <h1 class="h3 mb-3 mt-3 font-weight-normal">Clicks</h1>
+        <label for="artistId" class="sr-only">Clicks</label>
+        <input type="text" id="clicks" name="clicks" class="form-control" value="0" placeholder="Clicks"/>
+
+        <h1 class="h3 mb-3 mt-3 font-weight-normal">Genre</h1>
+        <select class="form-control" id="genre" name="genre" required>
+            <option>POP</option>
+            <option>ROCK</option>
+            <option>EUROBEAT</option>
+        </select>
+    </div>
+
     <script th:fragment="scripts" th:src="@{/js/bootstrap.min.js}"></script>
 
 </body>

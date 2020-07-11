@@ -58,6 +58,10 @@
                                 <h6 class="text-light text-uppercase ls-1 mb-1">Artist</h6>
                                 <a th:href="@{/artists/{id}(id=${song.artist.id})}" class="h3 text-white mb-0" th:text="${song.artist.name}">Lady Gaga</a>
                             </div>
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Clicks</h6>
+                                <h5 class="h3 text-white mb-0" th:text="${song.clicks}">Lady Gaga</h5>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -43,6 +43,13 @@
         </button>
     </div>
 
+    <div th:if="${param.notAnNumber}" class="alert alert-danger fade show m-3" role="alert">
+        <strong>Clicks is not an number</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
     <!-- Modal -->
     <div class="modal fade bd-example-modal-lg" id="newModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -54,27 +61,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <h1 class="h3 mb-3 font-weight-normal">Title</h1>
-                        <label for="title" class="sr-only">Title</label>
-                        <input type="text" id="title" name="title" class="form-control" placeholder="Title" required autofocus/>
-
-                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Youtube ID</h1>
-                        <label for="ytId" class="sr-only">Youtube ID</label>
-                        <input type="text" id="ytId" name="ytId" class="form-control" placeholder="Youtube Id" required/>
-
-                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Artist Id</h1>
-                        <label for="artistId" class="sr-only">Artist Id</label>
-                        <input type="text" id="artistId" name="artistId" class="form-control" placeholder="Artist Id" required/>
-
-                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Genre</h1>
-                        <select class="form-control" id="genre" name="genre" required>
-                            <option>POP</option>
-                            <option>ROCK</option>
-                            <option>EUROBEAT</option>
-                        </select>
-
-                    </div>
+                    <div th:replace="fragments :: songForm"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save Song</button>
@@ -104,6 +91,7 @@
                                 <th scope="col">Title</th>
                                 <th scope="col">Genre</th>
                                 <th scope="col">YT ID</th>
+                                <th scope="col">Clicks</th>
                             </tr>
                             </thead>
                             <tbody class="list">
@@ -128,6 +116,9 @@
                                         </div>
                                     </div>
                                 </th>
+                                <td class="budget" th:text="${song.clicks}">
+                                    1
+                                </td>
                             </tr>
                             </tbody>
                         </table>

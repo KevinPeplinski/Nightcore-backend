@@ -1,6 +1,9 @@
 package ninja.peplinski.nightcore.services;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +27,22 @@ public class PaginationService {
         }
 
         return pageNumbers;
+    }
+
+    public static Pageable constrainedPaging(Integer pageNo, Integer pageSize, String sortBy) {
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
+
+        if (pageSize < 10) {
+            pageSize = 10;
+        }
+
+        if (pageSize > 50) {
+            pageSize = 50;
+        }
+
+        return PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
     }
 
 }

@@ -14,6 +14,7 @@ public class Song {
     @Enumerated(EnumType.STRING)
     private Genre genre;
     private String ytId;
+    private Integer clicks;
     @ManyToOne
     @JsonIgnoreProperties({"songList"})
     private Artist artist;
@@ -56,5 +57,13 @@ public class Song {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public Integer getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(Integer clicks) {
+        this.clicks = clicks;
     }
 }
