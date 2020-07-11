@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<body>
+    <!-- Header -->
+    <head th:fragment="head">
+        <title>Nightcore</title>
+
+        <meta charset="utf-8">
+
+        <link th:href="@{/css/argon.css}" rel="stylesheet"/>
+    </head>
+
+    <!-- Sidenav -->
+    <nav th:fragment="sidenav" class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+        <div class="scrollbar-inner">
+            <!-- Brand -->
+            <div class="sidenav-header align-items-center mb-3 mt-3">
+                <img th:src="@{/img/Icon-102.png}" class="mb-4" width="102" height="102">
+            </div>
+            <div class="navbar-inner">
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                    <!-- Nav items -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/}">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/requests/open}">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Open Requests</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/artists}">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Artists</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/songs}">
+                                <i class="ni ni-tv-2 text-primary"></i>
+                                <span class="nav-link-text">Songs</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div th:fragment="header (title, button)" class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <h6 class="h2 text-white d-inline-block mb-0" th:text="${title}">Artists</h6>
+                    </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <button th:if="${button == 'new'}" type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#newModal">
+                            New
+                        </button>
+                        <button th:if="${button == 'delete'}" type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">
+                            Delete
+                        </button>
+                        <a th:href="@{/requests/all}" th:if="${button == 'all'}"  class="btn btn-sm btn-neutral">
+                            All Requests
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:fragment="scripts" th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

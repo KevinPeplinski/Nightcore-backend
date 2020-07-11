@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div th:replace="fragments :: head"></div>
+<body>
+
+<!-- Sidenav -->
+<div th:replace="fragments :: sidenav"></div>
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="form-signin" th:action="@{/artists/add}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add new Artist</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 class="h3 mb-3 font-weight-normal">Name</h1>
+                        <label for="name" class="sr-only">Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Name" required autofocus/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Artist</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div th:replace="fragments :: header('Open Requests','all')"></div>
+
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Open Requests List</h3>
+                    </div>
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">URL</th>
+                                <th scope="col">Date</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="list">
+                            <tr th:each="req : ${requests}">
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <a th:href="@{/requests/{id}(id=${req.id})}" class="name mb-0 text-sm" th:text="${req.url}">Lady Gaga</a>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <td class="budget" th:text="${req.date}">
+                                    1
+                                </td>
+
+                                <td class="text-right">
+
+                                    <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#exampleModal">
+                                        Create as Song
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-neutral" data-toggle="modal" data-target="#exampleModal">
+                                        Create as Playlist
+                                    </button>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Card footer -->
+                    <div class="card-footer py-4">
+                        <nav aria-label="...">
+                            <ul class="pagination justify-content-end mb-0">
+                                <li th:each="page : ${pages}" class="page-item" th:classappend="${page == currentPage}?active">
+                                    <a class="page-link" th:href="@{/requests/open?p={page}(page=${page})}" th:text="${page}"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments :: scripts"></div>
+
+
+</body>
+</html>

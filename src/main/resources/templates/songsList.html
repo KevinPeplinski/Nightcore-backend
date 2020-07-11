@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div th:replace="fragments :: head"></div>
+<body>
+
+<!-- Sidenav -->
+<div th:replace="fragments :: sidenav"></div>
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <div th:if="${param.success}" class="alert alert-success fade show m-3" role="alert">
+        <strong>Holy guacamole!</strong> Song created
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger fade show m-3" role="alert">
+        <strong>Error</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div th:if="${param.alreadyExists}" class="alert alert-danger fade show m-3" role="alert">
+        <strong>Song already Exists</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div th:if="${param.noSuchArtist}" class="alert alert-danger fade show m-3" role="alert">
+        <strong>There is no Artist with this ID!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div th:if="${param.noSuchGenre}" class="alert alert-danger fade show m-3" role="alert">
+        <strong>That Genre is not supported!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="newModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <form class="form-signin" th:action="@{/songs/add}" method="post">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add new Song</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 class="h3 mb-3 font-weight-normal">Title</h1>
+                        <label for="title" class="sr-only">Title</label>
+                        <input type="text" id="title" name="title" class="form-control" placeholder="Title" required autofocus/>
+
+                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Youtube ID</h1>
+                        <label for="ytId" class="sr-only">Youtube ID</label>
+                        <input type="text" id="ytId" name="ytId" class="form-control" placeholder="Youtube Id" required/>
+
+                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Artist Id</h1>
+                        <label for="artistId" class="sr-only">Artist Id</label>
+                        <input type="text" id="artistId" name="artistId" class="form-control" placeholder="Artist Id" required/>
+
+                        <h1 class="h3 mb-3 mt-3 font-weight-normal">Genre</h1>
+                        <select class="form-control" id="genre" name="genre" required>
+                            <option>POP</option>
+                            <option>ROCK</option>
+                            <option>EUROBEAT</option>
+                        </select>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Song</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div th:replace="fragments :: header('Songs','new')"></div>
+
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Song List</h3>
+                    </div>
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Genre</th>
+                                <th scope="col">YT ID</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list">
+                            <tr th:each="song : ${songs}">
+                                <td class="budget" th:text="${song.id}">
+                                    1
+                                </td>
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <a th:href="@{/songs/{id}(id=${song.id})}" class="name mb-0 text-sm" th:text="${song.title}">Lady Gaga</a>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td class="budget" th:text="${song.genre}">
+                                    1
+                                </td>
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <a th:href="@{https://www.youtube.com/watch?v={yid}(yid=${song.ytId})}" class="name mb-0 text-sm" th:text="${song.ytId}">Lady Gaga</a>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Card footer -->
+                    <div class="card-footer py-4">
+                        <nav aria-label="...">
+                            <ul class="pagination justify-content-end mb-0">
+                                <li th:each="page : ${pages}" class="page-item" th:classappend="${page == currentPage}?active">
+                                    <a class="page-link" th:href="@{/songs?p={page}(page=${page})}" th:text="${page}"></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments :: scripts"></div>
+
+
+</body>
+</html>

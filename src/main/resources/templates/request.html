@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div th:replace="fragments :: head"></div>
+<body>
+
+<!-- Sidenav -->
+<div th:replace="fragments :: sidenav"></div>
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="form-signin" th:action="@{/requests/delete/{id}(id=${req.id})}" method="get">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Request?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-danger">Delete Request</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div th:replace="fragments :: header('Request','delete')"></div>
+
+    <!-- Content -->
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Id</h6>
+                                <h5 class="h3 text-white mb-0" th:text="${req.id}">Lady Gaga</h5>
+                            </div>
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">URL</h6>
+                                <h5 class="h3 text-white mb-0" th:text="${req.url}">Lady Gaga</h5>
+                            </div>
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Date</h6>
+                                <h5 class="h3 text-white mb-0" th:text="${req.date}">Lady Gaga</h5>
+                            </div>
+                            <div class="col">
+                                <h6 class="text-light text-uppercase ls-1 mb-1">Open</h6>
+                                <h5 class="h3 text-white mb-0" th:text="${req.open}">Lady Gaga</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${req.open}" class="row">
+            <div class="col-xl-12">
+                <form class="form-signin" th:action="@{/songs/add/request/{id}(id = ${req.id})}" method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Create as new Song</h5>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="h3 mb-3 font-weight-normal">Title</h1>
+                            <label for="title" class="sr-only">Title</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="Title" required="" autofocus="">
+
+                            <h1 class="h3 mb-3 mt-3 font-weight-normal">Youtube ID</h1>
+                            <label for="ytId" class="sr-only">Youtube ID</label>
+                            <input type="text" id="ytId" name="ytId" class="form-control" placeholder="Youtube Id" required="">
+
+                            <h1 class="h3 mb-3 mt-3 font-weight-normal">Artist Id</h1>
+                            <label for="artistId" class="sr-only">Artist Id</label>
+                            <input type="text" id="artistId" name="artistId" class="form-control" placeholder="Artist Id" required="">
+
+                            <h1 class="h3 mb-3 mt-3 font-weight-normal">Genre</h1>
+                            <select class="form-control" id="genre" name="genre" required="">
+                                <option>POP</option>
+                                <option>ROCK</option>
+                                <option>EUROBEAT</option>
+                            </select>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create Song</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div th:replace="fragments :: scripts"></div>
+
+
+</body>
+</html>
