@@ -24,37 +24,22 @@ public class ArtistViewController {
     private ViewControllerHelper viewControllerHelper;
 
     @RequestMapping(path = "/artists", method = RequestMethod.GET)
-    private ModelAndView showArtists(@RequestParam(defaultValue = "1") Integer p,
+    private ModelAndView showArtists(@RequestParam(defaultValue = "") String q,
+                                     @RequestParam(defaultValue = "1") Integer p,
                                      @RequestParam(defaultValue = "10") Integer l,
                                      @RequestParam(defaultValue = "id") String sortBy) {
 
         ModelAndView modelAndView = new ModelAndView("artistList");
-        Page<Artist> pagedResult = artistService.getAll(p, l, sortBy);
+        Page<Artist> pagedResult = !q.isEmpty() ? artistService.getAllSearched(q, p, l, sortBy) : artistService.getAll(p, l, sortBy);
 
         modelAndView = viewControllerHelper.addPaginationAttributes(modelAndView,
                 "artists",
                 pagedResult,
-                p);
+                p,
+                q);
 
         return modelAndView;
     }
-
-    // TODO GENEREIC
-    @RequestMapping(path = "/artists/search", method = RequestMethod.GET)
-    private ModelAndView showArtistsSearch(@RequestParam String q) {
-
-        ModelAndView modelAndView = new ModelAndView("artistList");
-
-        Page<Artist> pagedResult = artistService.gedAllSearch("lady");
-
-        viewControllerHelper.addPaginationAttributes(modelAndView,
-                "artists",
-                pagedResult,
-                1);
-
-        return modelAndView;
-    }
-    // TODO END
 
     @GetMapping(path = "/artists/{id}")
     private ModelAndView showSingleArtist(@PathVariable Integer id) {

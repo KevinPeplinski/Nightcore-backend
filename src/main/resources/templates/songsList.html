@@ -132,16 +132,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- Card footer -->
-                    <div class="card-footer py-4">
-                        <nav aria-label="...">
-                            <ul class="pagination justify-content-end mb-0">
-                                <li th:each="page : ${pages}" class="page-item" th:classappend="${page == currentPage}?active">
-                                    <a class="page-link" th:href="@{/songs?p={page}(page=${page})}" th:text="${page}"></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+
+                    <div th:replace="fragments :: pagination('/songs')"></div>
+
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArtistService extends Listable<Artist> {
+public class ArtistService extends Searchable<Artist> {
 
     @Autowired
     ArtistRepository repository;
@@ -27,19 +27,6 @@ public class ArtistService extends Listable<Artist> {
 
         repository.save(artist);
     }
-
-    // TODO GENERIC
-    public Page<Artist> gedAllSearch(String searchText) {
-        ArtistSpecification spec =
-                new ArtistSpecification(
-                        new SearchCriteria("name", ":", searchText)
-                );
-
-        Pageable paging = PageRequest.of(0, 5, Sort.by("id"));
-
-        return repository.findAll(spec, paging);
-    }
-    // TODO END
 
     public void updateArtist(Artist artist) {
         repository.save(artist);

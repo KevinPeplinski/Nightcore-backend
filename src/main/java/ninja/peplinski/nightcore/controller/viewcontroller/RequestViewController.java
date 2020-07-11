@@ -1,13 +1,7 @@
 package ninja.peplinski.nightcore.controller.viewcontroller;
 
-import ninja.peplinski.nightcore.errors.AlreadyExistsException;
-import ninja.peplinski.nightcore.errors.NoSuchArtistException;
-import ninja.peplinski.nightcore.errors.NoSuchGenreException;
-import ninja.peplinski.nightcore.model.Artist;
 import ninja.peplinski.nightcore.model.Request;
-import ninja.peplinski.nightcore.model.repositories.RequestRepository;
 import ninja.peplinski.nightcore.services.RequestService;
-import ninja.peplinski.nightcore.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -25,9 +19,11 @@ public class RequestViewController {
     private ViewControllerHelper viewControllerHelper;
 
     @RequestMapping(path = "/requests/open", method = RequestMethod.GET)
-    private ModelAndView getAllOpenRequests(@RequestParam(defaultValue = "1") Integer p,
+    private ModelAndView getAllOpenRequests(@RequestParam(defaultValue = "") String q,
+                                            @RequestParam(defaultValue = "1") Integer p,
                                             @RequestParam(defaultValue = "10") Integer l,
                                             @RequestParam(defaultValue = "id") String sortBy) {
+
         ModelAndView modelAndView = new ModelAndView("openRequestList");
 
         Page<Request> pagedResult = requestService.getAllOpenRequests(p, l, sortBy);
@@ -40,10 +36,12 @@ public class RequestViewController {
         return modelAndView;
     }
 
-    @RequestMapping(path = "/requests/all", method = RequestMethod.GET)
-    private ModelAndView getAllRequests(@RequestParam(defaultValue = "1") Integer p,
-                                            @RequestParam(defaultValue = "10") Integer l,
-                                            @RequestParam(defaultValue = "id") String sortBy) {
+    @RequestMapping(path = "/requests", method = RequestMethod.GET)
+    private ModelAndView getAllRequests(@RequestParam(defaultValue = "") String q,
+                                        @RequestParam(defaultValue = "1") Integer p,
+                                        @RequestParam(defaultValue = "10") Integer l,
+                                        @RequestParam(defaultValue = "id") String sortBy) {
+
         ModelAndView modelAndView = new ModelAndView("requestsList");
         Page<Request> pagedResult = requestService.getAll(p, l, sortBy);
 

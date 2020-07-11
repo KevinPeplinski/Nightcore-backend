@@ -16,9 +16,10 @@ public class ViewControllerHelper {
     PaginationService paginationService;
 
     public <T> ModelAndView addPaginationAttributes(ModelAndView mav,
-                                                     String contentAttributeName,
-                                                     Page<T> pagedResult,
-                                                     Integer currentPage) {
+                                                    String contentAttributeName,
+                                                    Page<T> pagedResult,
+                                                    Integer currentPage,
+                                                    String searchText) {
 
         if (pagedResult.hasContent()) {
             mav.addObject(contentAttributeName, pagedResult.getContent());
@@ -27,8 +28,18 @@ public class ViewControllerHelper {
         }
 
         mav.addObject("pages", paginationService.getNumberedPages(pagedResult, currentPage));
+        mav.addObject("search", searchText);
+        mav.addObject("size", pagedResult.getSize());
         mav.addObject("currentPage", currentPage);
 
         return mav;
+    }
+
+    public <T> ModelAndView addPaginationAttributes(ModelAndView mav,
+                                                    String contentAttributeName,
+                                                    Page<T> pagedResult,
+                                                    Integer currentPage) {
+
+        return addPaginationAttributes(mav, contentAttributeName, pagedResult, currentPage, "");
     }
 }

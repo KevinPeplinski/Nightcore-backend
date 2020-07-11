@@ -26,7 +26,8 @@ public class SongViewController {
     ViewControllerHelper viewControllerHelper;
 
     @RequestMapping(path = "/songs")
-    ModelAndView getSongs(@RequestParam(defaultValue = "1") Integer p,
+    ModelAndView getSongs(@RequestParam(defaultValue = "") String q,
+                          @RequestParam(defaultValue = "1") Integer p,
                           @RequestParam(defaultValue = "10") Integer l,
                           @RequestParam(defaultValue = "id") String sortBy) {
 
