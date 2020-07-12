@@ -3,8 +3,11 @@ package ninja.peplinski.nightcore.controller.viewcontroller;
 import ninja.peplinski.nightcore.errors.AlreadyExistsException;
 import ninja.peplinski.nightcore.errors.NoSuchArtistException;
 import ninja.peplinski.nightcore.errors.NoSuchGenreException;
+import ninja.peplinski.nightcore.model.Artist;
 import ninja.peplinski.nightcore.model.Request;
 import ninja.peplinski.nightcore.model.Song;
+import ninja.peplinski.nightcore.model.specifications.GenericSpecification;
+import ninja.peplinski.nightcore.model.specifications.SearchCriteria;
 import ninja.peplinski.nightcore.services.RequestService;
 import ninja.peplinski.nightcore.services.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +35,21 @@ public class SongViewController {
                           @RequestParam(defaultValue = "id") String sortBy) {
 
         ModelAndView modelAndView = new ModelAndView("songsList");
-        Page<Song> pagedResult = songService.getAll(p, l, sortBy);
+
+        Page<Song> pagedResult;
+        if (!q.isEmpty()) {
+            GenericSpecification<Song> specification = new GenericSpecification<>(
+                    new SearchCriteria("title", ":", q));
+            pagedResult = songService.getAllSearched(specification, p, l, sortBy);
+        } else {
+            pagedResult = songService.getAll(p, l, sortBy);
+        }
 
         modelAndView = viewControllerHelper.addPaginationAttributes(modelAndView,
                 "songs",
                 pagedResult,
-                p);
+                p,
+                q);
 
         return modelAndView;
     }
