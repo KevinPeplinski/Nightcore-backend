@@ -1,15 +1,18 @@
 package ninja.peplinski.nightcore.model;
 
 import com.fasterxml.jackson.annotation.*;
+import ninja.peplinski.nightcore.model.view.JsonScope;
 
 import javax.persistence.*;
 
 @Entity
-public class Song {
+public class Song extends SearchableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(JsonScope.Public.class)
     private Integer id;
+    @JsonView(JsonScope.Public.class)
     private String title;
     @Enumerated(EnumType.STRING)
     private Genre genre;

@@ -34,8 +34,8 @@ public class PaginationService {
             pageNo = 1;
         }
 
-        if (pageSize < 10) {
-            pageSize = 10;
+        if (pageSize < 5) {
+            pageSize = 5;
         }
 
         if (pageSize > 50) {

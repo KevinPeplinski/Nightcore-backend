@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Artist {
+public class Artist extends SearchableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(JsonScope.Public.class)
