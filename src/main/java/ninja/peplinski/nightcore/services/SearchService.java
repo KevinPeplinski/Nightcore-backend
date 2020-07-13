@@ -4,16 +4,19 @@ import com.fasterxml.jackson.annotation.JsonView;
 import ninja.peplinski.nightcore.model.Artist;
 import ninja.peplinski.nightcore.model.SearchableEntity;
 import ninja.peplinski.nightcore.model.Song;
-import ninja.peplinski.nightcore.model.specifications.GenericSpecification;
-import ninja.peplinski.nightcore.model.specifications.SearchCriteria;
+import ninja.peplinski.nightcore.model.specifications.ArtistSpecifications;
 import ninja.peplinski.nightcore.model.view.JsonScope;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ninja.peplinski.nightcore.model.specifications.ArtistSpecifications.artistWithName;
+import static ninja.peplinski.nightcore.model.specifications.SongSpecifications.songWithArtistName;
+import static ninja.peplinski.nightcore.model.specifications.SongSpecifications.songWithTitle;
 
 @Service
 public class SearchService {
@@ -26,21 +29,34 @@ public class SearchService {
     public Iterable<SearchWrapper<?>> genericSearch(String q) {
         List<SearchWrapper<?>> searchWrappers = new ArrayList<>();
 
-        GenericSpecification<Artist> artistGenericSpecification = new GenericSpecification<>(
-                new SearchCriteria("name", ":", q));
-        Page<Artist> artistsPage = artistService.getAllSearched(artistGenericSpecification, 1, 5, "id");
-        Iterable<Artist> artists = artistsPage.getContent();
-        SearchService.SearchWrapper<Artist> artistSearchWrapper = new SearchService.SearchWrapper<>("artist", artists);
-        searchWrappers.add(artistSearchWrapper);
+        SearchWrapperCreator<Artist> artists = new SearchWrapperCreator<>(artistService, artistWithName(q), "artist");
 
-        GenericSpecification<Song> songGenericSpecification = new GenericSpecification<>(
-                new SearchCriteria("title", ":", q));
-        Page<Song> songPage = songService.getAllSearched(songGenericSpecification, 1, 5, "id");
-        Iterable<Song> songs = songPage.getContent();
-        SearchService.SearchWrapper<Song> songSearchWrapper = new SearchService.SearchWrapper<>("song", songs);
-        searchWrappers.add(songSearchWrapper);
+        Specification<Song> songSpecification = Specification.where(songWithTitle(q)).or(songWithArtistName(q));
+        SearchWrapperCreator<Song> songs = new SearchWrapperCreator<>(songService, songSpecification, "song");
+
+        searchWrappers.add(artists.getSearchWrapper());
+        searchWrappers.add(songs.getSearchWrapper());
 
         return searchWrappers;
+    }
+
+    static class SearchWrapperCreator<T extends SearchableEntity> {
+        private final Searchable<T> service;
+        private final Specification<T> specification;
+        private final String type;
+
+        public SearchWrapperCreator(Searchable<T> service, Specification<T> specification, String type) {
+            this.service = service;
+            this.specification = specification;
+            this.type = type;
+        }
+
+        public SearchWrapper<T> getSearchWrapper() {
+            String sortBy = "id";
+            Page<T> page = this.service.getAllSearched(this.specification, 1, 5, sortBy);
+            Iterable<T> content = page.getContent();
+            return new SearchWrapper<>(this.type, content);
+        }
     }
 
     public static class SearchWrapper<T extends SearchableEntity> {

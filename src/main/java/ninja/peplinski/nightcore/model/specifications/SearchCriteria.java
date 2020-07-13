@@ -2,13 +2,26 @@ package ninja.peplinski.nightcore.model.specifications;
 
 public class SearchCriteria {
     private String key;
-    private String operation;
+    private Operation operation;
     private Object value;
 
-    public SearchCriteria(String key, String operation, Object value) {
+    /*
+    Optional property for searching inside an relationship type
+    example: Searching for songs by there related artist name
+    SearchCriteria("artist", ":", searchText, "name")
+               type inside Song          type of the Artist
+    */
+    private String insideRelationshipTypeKey;
+
+    public SearchCriteria(String key, Operation operation, Object value, String insideRelationshipTypeKey) {
         this.key = key;
         this.operation = operation;
         this.value = value;
+        this.insideRelationshipTypeKey = insideRelationshipTypeKey;
+    }
+
+    public SearchCriteria(String key, Operation operation, Object value) {
+        this(key, operation, value, null);
     }
 
     public String getKey() {
@@ -19,11 +32,11 @@ public class SearchCriteria {
         this.key = key;
     }
 
-    public String getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
+    public void setOperation(Operation operation) {
         this.operation = operation;
     }
 
@@ -34,5 +47,16 @@ public class SearchCriteria {
     public void setValue(Object value) {
         this.value = value;
     }
-}
 
+    public String getInsideRelationshipTypeKey() {
+        return insideRelationshipTypeKey;
+    }
+
+    public void setInsideRelationshipTypeKey(String insideRelationshipTypeKey) {
+        this.insideRelationshipTypeKey = insideRelationshipTypeKey;
+    }
+
+    public enum Operation {
+        LESS_THAN, GREATER_THAN, LIKE
+    }
+}

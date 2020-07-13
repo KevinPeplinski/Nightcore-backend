@@ -2,12 +2,13 @@ package ninja.peplinski.nightcore.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import ninja.peplinski.nightcore.model.view.JsonScope;
+import ninja.peplinski.nightcore.model.specifications.SearchableInsideRelationshipChain;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Artist extends SearchableEntity {
+public class Artist extends SearchableEntity implements SearchableInsideRelationshipChain {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(JsonScope.Public.class)
@@ -50,5 +51,10 @@ public class Artist extends SearchableEntity {
         this.songList.removeIf(x -> {
             return song.getId() == x.getId();
         });
+    }
+
+    @Override
+    public String getKeyForSearchableProperty() {
+        return "name";
     }
 }

@@ -2,8 +2,6 @@ package ninja.peplinski.nightcore.controller.viewcontroller;
 
 import ninja.peplinski.nightcore.errors.AlreadyExistsException;
 import ninja.peplinski.nightcore.model.Artist;
-import ninja.peplinski.nightcore.model.specifications.GenericSpecification;
-import ninja.peplinski.nightcore.model.specifications.SearchCriteria;
 import ninja.peplinski.nightcore.services.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
+
+import static ninja.peplinski.nightcore.model.specifications.ArtistSpecifications.artistWithName;
 
 @Controller
 public class ArtistViewController {
@@ -31,9 +31,7 @@ public class ArtistViewController {
 
         Page<Artist> pagedResult;
         if (!q.isEmpty()) {
-            GenericSpecification<Artist> specification = new GenericSpecification<>(
-                    new SearchCriteria("name", ":", q));
-            pagedResult = artistService.getAllSearched(specification, p, l, sortBy);
+            pagedResult = artistService.getAllSearched(artistWithName(q), p, l, sortBy);
         } else {
             pagedResult = artistService.getAll(p, l, sortBy);
         }
