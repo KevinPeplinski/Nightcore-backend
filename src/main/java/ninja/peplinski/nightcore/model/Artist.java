@@ -1,5 +1,6 @@
 package ninja.peplinski.nightcore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import ninja.peplinski.nightcore.model.view.JsonScope;
 import ninja.peplinski.nightcore.model.specifications.SearchableInsideRelationshipChain;
@@ -17,6 +18,7 @@ public class Artist extends SearchableEntity implements SearchableInsideRelation
     private String name;
     @JsonView(JsonScope.Internal.class)
     @OneToMany(targetEntity=Song.class, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"artist"})
     private List<Song> songList;
 
     public Integer getId() {

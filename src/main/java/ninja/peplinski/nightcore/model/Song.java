@@ -14,11 +14,13 @@ public class Song extends SearchableEntity {
     private Integer id;
     @JsonView(JsonScope.Public.class)
     private String title;
+    @JsonView(JsonScope.Public.class)
+    private String ytId;
     @Enumerated(EnumType.STRING)
     private Genre genre;
-    private String ytId;
     private Integer clicks;
     @ManyToOne
+    @JsonView(JsonScope.Public.class)
     @JsonIgnoreProperties({"songList"})
     private Artist artist;
 

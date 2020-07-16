@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import ninja.peplinski.nightcore.model.Artist;
 import ninja.peplinski.nightcore.model.SearchableEntity;
 import ninja.peplinski.nightcore.model.Song;
-import ninja.peplinski.nightcore.model.specifications.ArtistSpecifications;
 import ninja.peplinski.nightcore.model.view.JsonScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
