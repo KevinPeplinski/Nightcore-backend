@@ -2,7 +2,7 @@
 <img src="https://raw.githubusercontent.com/KevinPeplinski/Nightcore-backend/master/src/main/resources/static/img/Icon-102.png" alt="BlastText" title="BlastText" width="80"/>
 </p>
 
-#Nightcore Backend ![alt text](https://img.shields.io/badge/language-Java-red "Language: Java") ![alt text](https://img.shields.io/badge/db-MySQL-blue "db: MySQL")
+# Nightcore Backend ![alt text](https://img.shields.io/badge/language-Java-red "Language: Java") ![alt text](https://img.shields.io/badge/db-MySQL-blue "db: MySQL")
 
 Nightcore-Backend is used to manage content via a user interface and to serve the content via a REST Api.
 The data that can be obtained via the REST Api should be usable by a corresponding companion app. 
