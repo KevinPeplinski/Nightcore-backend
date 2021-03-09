@@ -1,6 +1,8 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/KevinPeplinski/Nightcore-backend/master/src/main/resources/static/img/Icon-102.png" alt="BlastText" title="BlastText" width="80"/>Nightcore Backend 
+<img src="https://raw.githubusercontent.com/KevinPeplinski/Nightcore-backend/master/src/main/resources/static/img/Icon-102.png" alt="BlastText" title="BlastText" width="80"/>
 </p>
+
+<h1>Nightcore Backend</h1>
 
 <p align="center">
 <img src="https://img.shields.io/badge/language-Java-red">
